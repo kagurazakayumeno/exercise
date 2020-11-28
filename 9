@@ -1,37 +1,17 @@
 import random as rd
 List=[]
-for i in range(1,14):
-    List.append("♦"+"%d"%i)
-for i in range(14,27):
-    List.append("♣"+"%d"%(i-13))
-for i in range(27,40):
-    List.append("♥"+"%d"%(i-26))
-for i in range(40,53):
-    List.append("♠"+"%d"%(i-39))
+List1=["♦","♣","♥","♠"]
+List2=["3","4","5","6","7","8","9","10","J","Q","K","A","2"]
+for i in range(len(List1)):
+    for j in range(len(List2)):
+        List.append(List1[i]+List2[j])
 List.append("black🃏")
 List.append("red🃏")
-player1=[]
-player2=[]
-player3=[]
-i=0
-while i<17:
-    num=rd.randint(0,53)
-    if not List[num] in player1:
-        player1.append(List[num])
-        i+=1
-i=0
+rd.shuffle(List)
+player1=rd.sample(List,17)
 List1=[x for x in List if x not in player1]
-while i<17:
-    num=rd.randint(0,36)
-    if not List1[num] in player2:
-        player2.append(List1[num])
-        i+=1
-i=0
+player2=rd.sample(List1,17)
 List2=[x for x in List1 if x not in player2]
-while i<17:
-    num=rd.randint(0,19)
-    if not List2[num] in player3:
-        player3.append(List2[num])
-        i+=1
+player3=rd.sample(List2,17)
 face_down_cards=[x for x in List2 if x not in player3]
 print(player1,player2,player3,face_down_cards)
