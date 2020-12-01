@@ -29,7 +29,7 @@ for j in range(2,13):
     total2=0
     for i in range(2,L):
         total2+=int(list[i][j])
-    sub_average=total2/(L-1)
+    sub_average=total2/(L-2)
     list[1][j]=f"{sub_average:.0f}"
 #替换不及格
 for i in range(2,L):
