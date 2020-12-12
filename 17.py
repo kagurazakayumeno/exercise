@@ -13,34 +13,32 @@ def player_info():
         f=open("record.txt","x")
         f.close()
     #Player name should fit the specifications
-    try:
-        playername=input("please enter your name: ")
-        if not re.match(r"[\u4e00-\u9fa5a-zA-Z]{3,12}",playername):
-            raise ValueError
-    except ValueError:
-        print("your name should only contain Chinese characters and English letters and be between 3-12 characters")
-        player_info()
-    else:
-        #Get the information from the record file
-        with open("record.txt","r+") as f:
-            players=f.readlines()
-            if players:
-                i=0
-                for player in players:
-                    i+=1
-                    #If existing return its information
-                    if re.match(r"\b%s\b"%playername,player):
-                        return player
-                    #If not existing create a new player
-                    if i==len(players):
-                        player=playername+" 0 0 0 0\n"
-                        f.write(player)
-                        return player
-            #If empty create the first row
-            else:
-                player=playername+" 0 0 0 0\n"
-                f.write(player)
-                return player
+    playername=input("please enter your name: ")
+    while 1:
+        if re.match(r"[\u4e00-\u9fa5a-zA-Z]{3,12}",playername):
+            break
+        else:
+            print("your name should only contain Chinese characters and English letters and be between 3-12 characters")
+    #Get the information from the record file
+    with open("record.txt","r+") as f:
+        players=f.readlines()
+        if players:
+            i=0
+            for player in players:
+                i+=1
+                #If existing return its information
+                if re.match(r"\b%s\b"%playername,player):
+                    return player
+                #If not existing create a new player
+                if i==len(players):
+                    player=playername+" 0 0 0 0\n"
+                    f.write(player)
+                    return player
+        #If empty create the first row
+        else:
+            player=playername+" 0 0 0 0\n"
+            f.write(player)
+            return player
 #Begin to play
 def play_game():
     RandomPicks=random_pick()
