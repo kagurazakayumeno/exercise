@@ -13,8 +13,8 @@ def player_info():
         f=open("record.txt","x")
         f.close()
     #Player name should fit the specifications
-    playername=input("please enter your name: ")
     while 1:
+        playername=input("please enter your name: ")
         if re.match(r"[\u4e00-\u9fa5a-zA-Z]{3,12}",playername):
             break
         else:
