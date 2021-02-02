@@ -22,6 +22,7 @@ def player_info():
     #Get the information from the record file
     with open("record.txt","r+") as f:
         players=f.readlines()
+        playername=""
         if players:
             i=0
             for player in players:
