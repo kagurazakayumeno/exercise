@@ -1,0 +1,21 @@
+import requests
+import csv
+def zhihu_get():
+    url="https://www.zhihu.com/api/v3/feed/topstory/recommend?session_token=f211c2e294816f100238bd637728d9f6&desktop=true&page_number=3&limit=6&action=down&after_id=11&ad_interval=-1"
+    cookies='''_zap=e1beacb6-8a43-4ed0-b2ee-bdf0ad164df9; d_c0="AHAnPl7uGhCPTh-XkEsSds43LelHHO6m8UE=|1569465224"; _xsrf=TCioRNOpHZ2QTCLuXRKJSfof4zL5IDwP; tst=r; __utmv=51854390.100--|2=registration_date=20170116=1^3=entry_date=20170116=1; _ga=GA1.2.1559435160.1571108617; __utmz=51854390.1599486181.6.5.utmcsr=zhihu.com|utmccn=(referral)|utmcmd=referral|utmcct=/question/307071521; __utma=51854390.1559435160.1571108617.1599486181.1607780765.7; __utmc=51854390; q_c1=24dbe5743451435c876d3139e6ab621d|1608628091000|1571068099000; Hm_lvt_98beee57fd2ef70ccdd5ca52b9740c49=1610535866,1610541545,1610705563,1610720704; captcha_session_v2="2|1:0|10:1610961550|18:captcha_session_v2|28:YzAybDUzbTRmbzZucWhscjhwbTA=|44575ec416f12ae24089d989a609834ed326bad118c324347c238f1a03cf82ff"; __snaker__id=mvSX6zUz8vYaKczT; SESSIONID=7Tu5dnVk7JaUacyt9hpPlgYdNCttnsY2Bm75h5mB9sE; JOID=VVAcBUJ1Apo-MYTvFXTjSbFVm2UKTVfgBFvluHFMR_pkX-mZYOten18wiuEV0ZXbxhWIo1AF2iG4oEvjUq4bNns=; osd=WlASA0x6ApQ4P4vvG3LtRrFbnWsFTVnmClTltndCSPpqWeeWYOVYkVAwhOcb3pXVwBuHo14D1C64rk3tXa4VMHU=; gdxidpyhxdE=kj2rz0GZvoywmGKfIg0fuV4iS%2FIJG5saDA7lq87zEDnDjKhGo1JV6vTyQx1y%5Ck8KVSXlaXK3l2Ef0zZCV3eH8P1vqwd1JwNSZLaxQ9IvDq%5CNZVekOjfQDNKxx8PAZv7qhb9eEnSiErgCBIruBRU%2BGuWt4SDO6RzSvUYGx9%2Fku42%2BfhsI%3A1610962452791; _9755xjdesxxd_=32; YD00517437729195%3AWM_NI=Em53MEBxB%2BzdxmlmEDEA7F55In7jORXEHyzEnRYJvHH1NOy3yeaEiyiiu5U5NApLL1mvlM3MAXubsG06S%2FvUpEpPu8LSmo7cke%2F3sNySuQmE8EacmtEP%2FZACcDui602tbno%3D; YD00517437729195%3AWM_NIKE=9ca17ae2e6ffcda170e2e6eeb8d83fab899786dc5b9c9a8bb2c15f938e9b85f145bc93a9d5e26283a99e95d12af0fea7c3b92a87b3fbd4d04f82a88eccf970bcb3a48ec850879ff9a7b83f8bb2f98bce5a9c9b889af94fae8e97abf5448cef82b0fc39bbbbafa6ec73abb7bbd6d83f8e9fc0adcf3bafaaa4aeb2478388bb83f24df4ea9dd0f55fb49bc0b1f834908da390b669a9bbe1d4f246bb8dbbb2f04ffc9baf84f0808790e1bbc449a19cbb8ab53cf2acae8fee37e2a3; YD00517437729195%3AWM_TID=ywc8ixgFSFZBFUFFRUNue0N19NjEwE5U; captcha_ticket_v2="2|1:0|10:1610961566|17:captcha_ticket_v2|700:eyJ2YWxpZGF0ZSI6IjFCTGNjeXNKNWNvZFpqdU44RHouRUxsYlVpRFNhMUJOMDBZSnZldEtlYnA2Yy1KXzF1enhKQWtqRGEwZmFQejEtT0M5Uk51dlFhbXdwTk13YWZxNlJKZWRmc1hNOGM3XzFJTm95TnlxTDd6d2dRdWFFLlRIR3phNlEua0JWSndmVWtncEpBWFpDLXhpeHhia3JIQnJqNW5rZXpfLS14UGRVSTRYN3E5SkVsU0N2TlBkcExYTzgwVjV4aDE0dFRlSzA3NU42Mng4U09RTUR2b0hET0diLnZDWWZROFdROFZSZGtza052VTFxV25IWDRmOS43RmItSTlsY0hYR240YmN3Lk5sLndfZTJwTVpfQkxCTTRnakZJdm9UTkc2cGpEWW96cVdlQ0MuZDlqMWhtYWJPWVBUck5MSjI1N0NTcTZnUzhaLVRsX19HLUpZdGFYUnFWRzhHaTZuZUIuMEZsYTBQVldUSUJ1dFJLVF9FdENWS01WSVJCYm12V1AtbEd1aHZJQ1FsdHl6dndCUDlZekxKQzhXcU1ja3M0d01hcW9UOHB1MndVdGkuQS1OcDhqdDE2OE9WR0Q3eTFWRmhtSFBtSzZfUXk2Mk5UV2k1SkIycnZUVmxTeW83MDVZOEh5TTJ6cTY4MFF3VWZnQmRzOHQ5SWUxeDQtRlMyWjMifQ==|d64639ed826b1a97a02840d5a660ae73bb29288aacc1e863b7aa60953b5b5c5b"; z_c0="2|1:0|10:1610961567|4:z_c0|92:Mi4xUHhMd0F3QUFBQUFBY0NjLVh1NGFFQ1lBQUFCZ0FsVk5uNkR5WUFDa3ZGT2lwdDZBTWZ3dzZGTjJ2SWVwdlg4ZXp3|62f0a2b95dc2540b6d9b31d238f19b4716310c08c72f629b4768925a7d97228d"; Hm_lpvt_98beee57fd2ef70ccdd5ca52b9740c49=1611042850; KLBRSID=4843ceb2c0de43091e0ff7c22eadca8c|1611042852|1611040554'''
+    headers={"cookie":cookies,"user-agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 11_0_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36"}
+    data=requests.get(url,headers=headers)
+    data.encoding="utf-8"
+    return data
+def data_enter(data):
+    timeline=[]
+    for i in range(6):
+        data1=data.json()["data"][i]
+        if data1["target"]["type"]=="article":
+            data2=(data1["target"]["id"],data1["action_text"],data1["target"]["title"],data1["target"]["type"],data1["target"]["author"]["name"],data1["target"]["author"]["headline"])
+        else:
+            data2=(data1["target"]["id"],data1["action_text"],data1["target"]["question"]["title"],data1["target"]["type"],data1["target"]["author"]["name"],data1["target"]["author"]["headline"])
+            timeline.append(data2)
+    with open('data1.csv','a',encoding='utf-8') as f:
+        f_csv=csv.writer(f)
+        f_csv.writerows(timeline)
